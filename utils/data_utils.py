@@ -60,8 +60,8 @@ class DataSet():
         x = []
         y = []
         for i in range(x_path.shape[0]):
-            x.append(self.transform(cv2.imread(x_path[i], cv2.CAP_MODE_RGB)))
-            y.append(cv2.imread(y_path[i], cv2.CAP_MODE_GRAY))
+            x.append(self.transform(cv2.imread(x_path[i], cv2.IMREAD_COLOR)))
+            y.append(cv2.imread(y_path[i], cv2.IMREAD_GRAYSCALE))
 
         return np.array(x), np.array(y)
 

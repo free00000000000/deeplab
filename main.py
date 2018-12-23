@@ -8,6 +8,8 @@ import pandas as pd
 import numpy as np
 import os
 
+config = tf.ConfigProto()
+config.gpu_options.allow_growth=True
 
 class args:
     batch_size = 32
@@ -80,7 +82,7 @@ saver = tf.train.Saver(tf.all_variables())
 # print(predicts.name)
 best_val_acc = 0.8
 
-with tf.Session() as sess:
+with tf.Session(config=config) as sess:
     sess.run(tf.local_variables_initializer())
     sess.run(tf.global_variables_initializer())
     # finetune resnet_v2_50参数
@@ -88,9 +90,9 @@ with tf.Session() as sess:
 
     log_path = 'logs/%s/' % args.model_name
     model_path = 'ckpts/%s/' % args.model_name
-    if not os.path.exists(model_path): os.mkdir(model_path)
-    if not os.path.exists('./logs'): os.mkdir('./logs')
-    if not os.path.exists(log_path): os.mkdir(log_path)
+    if not os.path.exists(model_path): os.makedirs(model_path)
+    if not os.path.exists('./logs'): os.makedirs('./logs')
+    if not os.path.exists(log_path): os.makedirs(log_path)
     train_summary_writer = tf.summary.FileWriter('%s/train' % log_path, sess.graph)
     val_summary_writer = tf.summary.FileWriter('%s/val' % log_path, sess.graph)
 
